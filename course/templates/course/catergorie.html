@@ -1,0 +1,120 @@
+{% extends 'course/base.html' %}
+{% load static %}
+{% block content %}
+
+
+
+
+	<!-- ================ start banner Area ================= -->
+	<section class="banner-area">
+		<div class="container">
+			<div class="row justify-content-center align-items-center">
+				<div class="col-lg-12 banner-right">
+					<h1 class="text-white">
+							Category Post
+					</h1>
+					<p class="mx-auto text-white  mt-20 mb-40">
+						In the history of modern astronomy, there is probably no one greater leap forward than the building.
+					</p>
+					<div class="link-nav">
+						<span class="box">
+							<a href="{% url 'index' %}">Home </a>
+							<i class="lnr lnr-arrow-right"></i>
+							<a href="{% url 'blog-home' %}">Blog Home</a>
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- ================ End banner Area ================= -->
+
+	<!-- Start top-category-widget Area -->
+	<section class="top-category-widget-area pt-90 pb-90 ">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-4">
+					<div class="single-cat-widget">
+						
+					</div>
+				</div>
+				
+				
+			</div>
+		</div>
+	</section>
+	<!-- End top-category-widget Area -->
+
+	<!-- Start post-content Area -->
+	<section class="post-content-area">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 posts-list">
+					{% if category_posts %}
+					<div class="single-post row">
+						{% for post in category_posts %}
+						<div class="col-lg-3  col-md-3 meta-details">
+							<ul class="tags">
+								<li><a href="#"></a></li>
+								<li><a href="#"></a></li>
+								<li><a href="#"></a></li>
+								<li><a href="#"></a></li>
+							</ul>
+							<div class="user-details row">
+
+								<p class="user-name col-lg-12 col-md-12 col-6">
+									<a href="#">{{cats}}</a> 
+									<span class="lnr lnr-user"></span>
+								</p>
+								<p class="date col-lg-12 col-md-12 col-6">
+									<a href="#">{{post.post_date}}</a> 
+									<span class="lnr lnr-calendar-full"></span>
+								</p>
+								<p class="view col-lg-12 col-md-12 col-6">
+									<a href="#">1.2M Views</a> 
+									<span class="lnr lnr-eye"></span>
+								</p>
+								<p class="comments col-lg-12 col-md-12 col-6">
+									<a href="#">06 Comments</a> 
+									<span class="lnr lnr-bubble"></span>
+								</p>
+
+							</div>
+						</div>
+
+						
+						<div class="col-lg-9 col-md-9 ">
+							<div class="feature-img">
+								<img class="img-fluid" src="{{post.image.url}}" alt="" width="300px" height="300px">
+							</div>
+							<a class="posts-title" href="#">
+								<h3>{{post.title}}  {{post.author}}</h3>
+							</a>
+							<p class="excert">
+								{{post.body|slice:":200"|safe}}
+							</p>
+							<form method="POST" action="{% url 'like_post' post.pk %}">
+									{% csrf_token %}
+
+							<button type="submit" value="{{post.id}}" name="post_id" class="btn btn-danger btn-sm">Like
+							</button>{{total_likes}} -Likes
+
+									
+							</form><br>
+							<a href="{% url 'detail' post.pk %}" class="view-more-btn">View More</a>
+
+							{% if user.is_authenticated %}
+								{% if user.id == post.author.id  %}
+									<a href="{% url 'update_post' post.pk %}" class="view-more-btn">Edit</a>
+									<a href="{% url 'delete_post' post.pk %}" class="view-more-btn">Delete</a>
+								{% endif %}	
+							{% endif %}	
+						</div>
+						{% endfor %}
+					</div>
+					{% else %}
+				<h2>Sorry This Page Dose't Exist</h2>
+		{% endif %}	
+				</section>
+	<!-- End post-content Area -->
+{% endblock content %}
